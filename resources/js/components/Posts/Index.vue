@@ -32,24 +32,38 @@
     </div>
 </template>
 
-<script>
-import axios from "axios";
+<!--Vue 3 Composable API start -->
+<script setup>
+import { onMounted } from "vue";
+import usePosts from "../../composables/posts";
 
-export default {
-    data() {
-        return {
-            posts: []
-        }
-    },
-    mounted() {
-        this.fetchPosts()
-    },
-    methods: {
-        fetchPosts() {
-            axios.get('api/posts')
-                .then(response => this.posts = response.data)
-                .catch(error => console.log(error))
-        }
-    }
-}
+const { posts, getPosts } = usePosts()
+onMounted(() => {
+    getPosts()
+})
 </script>
+<!--Vue 3 Composable API end -->
+
+<!--Vue old optional API start -->
+<!--<script>-->
+<!--import axios from "axios";-->
+
+<!--export default {-->
+<!--    data() {-->
+<!--        return {-->
+<!--            posts: []-->
+<!--        }-->
+<!--    },-->
+<!--    mounted() {-->
+<!--        this.fetchPosts()-->
+<!--    },-->
+<!--    methods: {-->
+<!--        fetchPosts() {-->
+<!--            axios.get('api/posts')-->
+<!--                .then(response => this.posts = response.data)-->
+<!--                .catch(error => console.log(error))-->
+<!--        }-->
+<!--    }-->
+<!--}-->
+<!--</script>-->
+<!--Vue old optional API end -->
