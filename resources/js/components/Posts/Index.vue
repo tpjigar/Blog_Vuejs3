@@ -35,7 +35,7 @@
 <!--Vue 3 Composable API start -->
 <script setup>
 import { onMounted } from "vue";
-import usePosts from "../../composables/posts";
+import usePosts from "@/composables/posts";
 
 const { posts, getPosts } = usePosts()
 onMounted(() => {
