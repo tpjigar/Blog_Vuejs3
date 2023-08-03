@@ -2,20 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
-class PostFactory extends Factory
+class CategoryFactory extends Factory
 {
-    protected $model = Post::class;
+    protected $model = Category::class;
 
     public function definition(): array
     {
         return [
-            'title' => $this->faker->word(),
-            'content' => $this->faker->paragraph(5),
-            'category_id' => rand(1,10),
+            'name' => $this->faker->word(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];
