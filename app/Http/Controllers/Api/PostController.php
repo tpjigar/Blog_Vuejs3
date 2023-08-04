@@ -46,4 +46,26 @@ class PostController extends Controller
         $post = Post::create($request->validated());
         return new PostResource($post);
     }
+
+    /**
+     * @param Post $post
+     * @return PostResource
+     */
+    public function show(Post $post)
+    {
+        return new PostResource($post);
+    }
+
+    /**
+     * @param Post $post
+     * @param StorePostRequest $request
+     * @return PostResource
+     */
+    public function update(Post $post, StorePostRequest $request)
+    {
+        $post->update($request->validated());
+
+        return new PostResource($post);
+    }
+
 }
