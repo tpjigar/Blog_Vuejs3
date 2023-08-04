@@ -4,13 +4,12 @@ import axios from "axios";
 export default function useCategories() {
     const categories = ref({})
 
-    const getCategories = async(page = 1) =>{
-        axios.get('api/categories?page='+ page)
+    const getCategories = async() =>{
+        axios.get('/api/categories')
             .then(response => {
                 categories.value = response.data.data;
             })
     }
-
 
     return { categories, getCategories }
 

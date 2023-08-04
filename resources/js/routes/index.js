@@ -4,7 +4,7 @@ import PostsCreate from "../components/Posts/create.vue";
 
 const routes = [
     {
-        path: '/',
+        path: '/posts',
         name: 'posts.index',
         component: PostsIndex,
         meta: { title: 'Posts' }

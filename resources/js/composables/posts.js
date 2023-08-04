@@ -1,8 +1,11 @@
 import {ref} from 'vue'
 import axios from "axios";
+import { useRouter } from "vue-router";
 
 export default function usePosts() {
     const posts = ref({})
+    const router = useRouter()
+    const validationErrors = ref({})
 
     const getPosts = async(
         page = 1,
@@ -10,7 +13,7 @@ export default function usePosts() {
         order_column = 'created_at',
         order_direction = 'desc'
     ) =>{
-        axios.get('api/posts?page='+ page +
+        axios.get('/api/posts?page='+ page +
             '&category='+ category +
             '&order_column='+ order_column +
             '&order_direction='+ order_direction
@@ -20,7 +23,19 @@ export default function usePosts() {
             })
     }
 
+    const storePost = async (post) => {
+        axios.post('/api/posts', post)
+            .then(response => {
+                router.push({ name: 'posts.index' })
+            })
+            .catch(error => {
+                if (error.response?.data) {
+                    validationErrors.value = error.response.data.errors
+                }
+            })
+    }
 
-    return { posts, getPosts }
+
+    return { posts, getPosts, storePost, validationErrors }
 
 }
