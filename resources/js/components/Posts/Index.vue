@@ -2,13 +2,16 @@
     <div class="overflow-hidden overflow-x-auto p-6 bg-white border-gray-200">
         <div class="min-w-full align-middle">
             <div class="mb-4">
-                <select v-model="search_category"
-                        class="block mt-1 w-full sm:w-1/4 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <option value="" selected>-- Filter by category --</option>
-                    <option v-for="category in categories" :value="category.id" :key="category.id">
-                        {{ category.name }}
-                    </option>
-                </select>
+<!--                <select v-model="search_category"-->
+<!--                        class="block mt-1 w-full sm:w-1/4 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">-->
+<!--                    <option value="" selected>&#45;&#45; Filter by category &#45;&#45;</option>-->
+<!--                    <option v-for="category in categories" :value="category.id" :key="category.id">-->
+<!--                        {{ category.name }}-->
+<!--                    </option>-->
+<!--                </select>-->
+                <div class="mb-4 grid lg:grid-cols-4">
+                    <input v-model="search_global" type="text" placeholder="Search..." class="inline-block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                </div>
             </div>
             <table class="min-w-full divide-y divide-gray-200 border">
                 <thead>
@@ -123,7 +126,7 @@
 
                 </tbody>
             </table>
-            <TailwindPagination :data="posts" @pagination-change-page="page => getPosts(page, search_category)"
+            <TailwindPagination :data="posts" @pagination-change-page="page => getPosts(page, search_category, search_id, search_title, search_content, search_global, orderColumn, orderDirection)"
                                 class="mt-4"/>
         </div>
     </div>
@@ -167,16 +170,19 @@ onMounted(() => {
 })
 
 watch(search_category, (current, previous) => {
-    getPosts(1, current, search_id.value, search_title.value, search_content.value)
+    getPosts(1, current, search_id.value, search_title.value, search_content.value, search_global.value)
 })
 watch(search_id, (current, previous) => {
-    getPosts(1, search_category.value, current, search_title.value, search_content.value)
+    getPosts(1, search_category.value, current, search_title.value, search_content.value, search_global.value)
 })
 watch(search_title, (current, previous) => {
-    getPosts(1, search_category.value, search_id.value, current, search_content.value)
+    getPosts(1, search_category.value, search_id.value, current, search_content.value, search_global.value)
 })
 watch(search_content, (current, previous) => {
-    getPosts(1, search_category.value, search_id.value, search_title.value, current)
+    getPosts(1, search_category.value, search_id.value, search_title.value, current, search_global.value)
+})
+watch(search_global, (current, previous) => {
+    getPosts(1, search_category.value, search_id.value, search_title.value, search_content.value, current)
 })
 </script>
 <!--Vue 3 Composable API end -->
