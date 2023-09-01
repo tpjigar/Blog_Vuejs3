@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\Permission;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,6 +25,16 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        try {
+            foreach (Permission::pluck('name') as $permission) {
+                Gate::define($permission, function ($user) use ($permission) {
+                    return $user->roles()->whereHas('permissions', function (Builder $q) use ($permission) {
+                        $q->where('name', $permission);
+                    })->exists();
+                });
+            }
+        } catch (QueryException $e) {
+
+        }
     }
 }
